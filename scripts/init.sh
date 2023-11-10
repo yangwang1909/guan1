@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 rm -r ~/.minid || true
 MINID_BIN=$(which minid)
