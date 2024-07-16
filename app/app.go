@@ -3,8 +3,6 @@ package app
 import (
 	_ "embed"
 	"io"
-	"os"
-	"path/filepath"
 
 	dbm "github.com/cosmos/cosmos-db"
 
@@ -13,6 +11,7 @@ import (
 	"cosmossdk.io/log"
 	storetypes "cosmossdk.io/store/types"
 
+	clienthelpers "cosmossdk.io/client/v2/helpers"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -74,12 +73,12 @@ type MiniApp struct {
 }
 
 func init() {
-	userHomeDir, err := os.UserHomeDir()
+	var err error
+	// clienthelpers.EnvPrefix = "MINI"
+	DefaultNodeHome, err = clienthelpers.GetNodeHomeDirectory(".minid")
 	if err != nil {
 		panic(err)
 	}
-
-	DefaultNodeHome = filepath.Join(userHomeDir, ".minid")
 }
 
 // AppConfig returns the default app config.
