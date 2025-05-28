@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 rm -rf $HOME/.minid
 MINID_BIN=$(which minid)
