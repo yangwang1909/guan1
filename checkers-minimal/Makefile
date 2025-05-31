@@ -27,9 +27,10 @@ protoImage=$(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace $(pro
 proto-all: proto-format proto-lint proto-gen
 
 proto-gen:
-	@echo "Generating protobuf files..."
-	@echo "$(protoImage)"
-	@$(protoImage) sh ./scripts/protocgen.sh
+#	@echo "Generating protobuf files..."
+#	@echo "$(protoImage)"
+#	@$(protoImage) 
+	sh ./scripts/protocgen.sh
 	@go mod tidy
 
 proto-format:
