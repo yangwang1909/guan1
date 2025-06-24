@@ -32,6 +32,7 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 						{ProtoField: "index"},
 						{ProtoField: "black"},
 						{ProtoField: "red"},
+						{ProtoField: "wager"},
 					},
 				},
 			},
