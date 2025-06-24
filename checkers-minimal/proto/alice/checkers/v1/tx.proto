@@ -20,7 +20,7 @@ returns (MsgCreateGameResponse);
 
 // MsgCreateGame defines the Msg/CreateGame request type.
 message MsgCreateGame {
-option (cosmos.msg.v1.signer) = "creator";
+  option (cosmos.msg.v1.signer) = "creator";
 
   // creator is the message sender.
   string creator = 1;

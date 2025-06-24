@@ -36,6 +36,7 @@ func (ms msgServer) CreateGame(ctx context.Context, msg *checkers.MsgCreateGame)
 		Turn:  rules.PieceStrings[newBoard.Turn],
 		Black: msg.Black,
 		Red:   msg.Red,
+		Wager: msg.Wager,
 	}
 	if err := storedGame.Validate(); err != nil {
 		return nil, err
