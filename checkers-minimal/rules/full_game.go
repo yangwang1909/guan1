@@ -1,10 +1,8 @@
 package rules
 
 import (
-	"fmt"
-	"time"
-
 	sdkerrors "cosmossdk.io/errors"
+	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
@@ -46,14 +44,14 @@ func (storedGame StoredGame) GetPlayerAddress(color string) (address sdk.AccAddr
 	return address, found, nil
 }
 
-func (storedGame StoredGame) GetWinnerAddress() (address sdk.AccAddress, found bool, err error) {
-	return storedGame.GetPlayerAddress(storedGame.Winner)
-}
+//func (storedGame StoredGame) GetWinnerAddress() (address sdk.AccAddress, found bool, err error) {
+//	return storedGame.GetPlayerAddress(storedGame.Winner)
+//}
 
-func (storedGame StoredGame) GetDeadlineAsTime() (deadline time.Time, err error) {
-	deadline, errDeadline := time.Parse("2006-01-02 15:04:05.999999999 +0000 UTC", storedGame.Deadline)
-	return deadline, sdkerrors.Wrapf(errDeadline, ErrInvalidDeadline.Error(), storedGame.Deadline)
-}
+//func (storedGame StoredGame) GetDeadlineAsTime() (deadline time.Time, err error) {
+//	deadline, errDeadline := time.Parse("2006-01-02 15:04:05.999999999 +0000 UTC", storedGame.Deadline)
+//	return deadline, sdkerrors.Wrapf(errDeadline, ErrInvalidDeadline.Error(), storedGame.Deadline)
+//}
 
 func (storedGame StoredGame) Validate() (err error) {
 	_, err = storedGame.GetBlackAddress()
@@ -68,6 +66,6 @@ func (storedGame StoredGame) Validate() (err error) {
 	if err != nil {
 		return err
 	}
-	_, err = storedGame.GetDeadlineAsTime()
+	//_, err = storedGame.GetDeadlineAsTime()
 	return err
 }
