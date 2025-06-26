@@ -2,57 +2,58 @@ package keeper
 
 import (
 	"fmt"
+	"github.com/alice/checkers/rules"
 
 	"cosmossdk.io/collections"
 	"cosmossdk.io/core/address"
 	storetypes "cosmossdk.io/core/store"
 	"github.com/cosmos/cosmos-sdk/codec"
 
+	"github.com/tendermint/tendermint/libs/log"
+
+	storetype "cosmossdk.io/store/types"
 	"github.com/alice/checkers"
+	"github.com/cosmos/cosmos-sdk/codec"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 )
 
-type Keeper struct {
-	cdc          codec.BinaryCodec
-	addressCodec address.Codec
+type (
+	Keeper struct {
+		bank       rules.BankEscrowKeeper
+		hooks      rules.CheckersHooks
+		cdc        codec.BinaryCodec
+		storeKey   StoreKey
+		memKey     StoreKey
+		paramstore paramtypes.Subspace
+	}
+)
 
-	// authority is the address capable of executing a MsgUpdateParams and other authority-gated message.
-	// typically, this should be the x/gov module account.
-	authority string
-
-	// state management
-	Schema      collections.Schema
-	Params      collections.Item[checkers.Params]
-	StoredGames collections.Map[string, checkers.StoredGame]
+type StoreKey interface {
+	Name() string
+	String() string
 }
 
 // NewKeeper creates a new Keeper instance
-func NewKeeper(cdc codec.BinaryCodec, addressCodec address.Codec, storeService storetypes.KVStoreService, authority string) Keeper {
-	if _, err := addressCodec.StringToBytes(authority); err != nil {
-		panic(fmt.Errorf("invalid authority address: %w", err))
+func NewKeeper(
+	bank rules.BankEscrowKeeper,
+	cdc codec.BinaryCodec,
+	storeKey,
+	memKey storetype.StoreKey,
+	ps paramtypes.Subspace,
+
+) *Keeper {
+	// set KeyTable if it has not already been set
+	if !ps.HasKeyTable() {
+		ps = ps.WithKeyTable(rules.ParamKeyTable())
 	}
 
-	sb := collections.NewSchemaBuilder(storeService)
-	k := Keeper{
-		cdc:          cdc,
-		addressCodec: addressCodec,
-		authority:    authority,
-		Params:       collections.NewItem(sb, checkers.ParamsKey, "params", codec.CollValue[checkers.Params](cdc)),
-		StoredGames: collections.NewMap(sb,
-			checkers.StoredGamesKey, "storedGames", collections.StringKey,
-			codec.CollValue[checkers.StoredGame](cdc)),
+	return &Keeper{
+		bank:       bank,
+		cdc:        cdc,
+		storeKey:   storeKey,
+		memKey:     memKey,
+		paramstore: ps,
 	}
-
-	schema, err := sb.Build()
-	if err != nil {
-		panic(err)
-	}
-
-	k.Schema = schema
-
-	return k
-}
-
-// GetAuthority returns the module's authority.
-func (k Keeper) GetAuthority() string {
-	return k.authority
 }

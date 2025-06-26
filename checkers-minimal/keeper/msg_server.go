@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strconv"
 
 	"cosmossdk.io/collections"
 	"github.com/alice/checkers"
@@ -29,15 +30,22 @@ func (ms msgServer) CreateGame(ctx context.Context, msg *checkers.MsgCreateGame)
 	if _, err := ms.k.StoredGames.Get(ctx, msg.Index); err == nil || errors.Is(err, collections.ErrEncoding) {
 		return nil, fmt.Errorf("game already exists at index: %s", msg.Index)
 	}
+	systemInfo, found := ms.k.GetSystemInfo(ctx)
+	if !found {
+		panic("SystemInfo not found")
+	}
+	newIndex := strconv.FormatUint(systemInfo.NextId, 10)
 
-	newBoard := rules.New()
-	storedGame := checkers.StoredGame{
-		Board: newBoard.String(),
-		Turn:  rules.PieceStrings[newBoard.Turn],
+	newGame := rules.New()
+	storedGame := rules.StoredGame{
+		Index: newIndex,
+		Board: newGame.String(),
+		Turn:  rules.PieceStrings[newGame.Turn],
 		Black: msg.Black,
 		Red:   msg.Red,
 		Wager: msg.Wager,
 	}
+
 	if err := storedGame.Validate(); err != nil {
 		return nil, err
 	}

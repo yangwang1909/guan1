@@ -2,10 +2,21 @@ package rules
 
 import (
 	"bytes"
+	sdkerrors "cosmossdk.io/errors"
 	"errors"
 	"fmt"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	cosmoserrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"strings"
 )
+
+func (msg *MsgPlayMove) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return sdkerrors.Wrapf(cosmoserrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+	return nil
+}
 
 const (
 	BOARD_DIM = 8

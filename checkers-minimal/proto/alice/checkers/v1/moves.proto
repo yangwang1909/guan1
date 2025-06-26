@@ -1,0 +1,19 @@
+syntax = "proto3";
+package alice.checkers.v1;
+
+option go_package = "github.com/alice/checkers/rules";
+
+message MsgPlayMove {
+  string creator = 1;
+  string gameIndex = 2;
+  uint64 fromX = 3;
+  uint64 fromY = 4;
+  uint64 toX = 5;
+  uint64 toY = 6;
+}
+
+message MsgPlayMoveResponse {
+  int32 capturedX = 1;
+  int32 capturedY = 2;
+  string winner = 3;
+}

@@ -1,13 +1,18 @@
 syntax = "proto3";
 package alice.checkers.v1;
 
-option go_package = "github.com/alice/checkers";
+option go_package = "github.com/alice/checkers/rules";
 
 import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
 
-// Params defines the parameters of the module.
-message Params {}
+
+// Params defines the parameters for the module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+
+}
+
 
 // GenesisState is the state that must be provided at genesis.
 message GenesisState {
@@ -15,11 +20,13 @@ message GenesisState {
   Params params = 1 [ (gogoproto.nullable) = false ];
   repeated IndexedStoredGame indexedStoredGameList = 2 [(gogoproto.nullable) = false];
 }
+
 message StoredGame {
-  string board = 1;
-  string turn = 2;
-  string black = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  string red = 4 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string index = 1;
+  string board = 2;
+  string turn = 3;
+  string black = 4;
+  string red = 5;
   uint64 wager = 11;
 }
 
@@ -27,3 +34,4 @@ message IndexedStoredGame {
   string index = 1;
   StoredGame storedGame = 2 [(gogoproto.nullable) = false];
 }
+

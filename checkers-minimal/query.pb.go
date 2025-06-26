@@ -6,6 +6,7 @@ package checkers
 import (
 	context "context"
 	fmt "fmt"
+	rules "github.com/alice/checkers/rules"
 	_ "github.com/cosmos/cosmos-sdk/types/query"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	grpc1 "github.com/cosmos/gogoproto/grpc"
@@ -81,7 +82,7 @@ func (m *QueryGetGameRequest) GetIndex() string {
 // method.
 type QueryGetGameResponse struct {
 	// Game defines the game at the requested index.
-	Game *StoredGame `protobuf:"bytes,1,opt,name=Game,proto3" json:"Game,omitempty"`
+	Game *rules.StoredGame `protobuf:"bytes,1,opt,name=Game,proto3" json:"Game,omitempty"`
 }
 
 func (m *QueryGetGameResponse) Reset()         { *m = QueryGetGameResponse{} }
@@ -117,7 +118,7 @@ func (m *QueryGetGameResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_QueryGetGameResponse proto.InternalMessageInfo
 
-func (m *QueryGetGameResponse) GetGame() *StoredGame {
+func (m *QueryGetGameResponse) GetGame() *rules.StoredGame {
 	if m != nil {
 		return m.Game
 	}
@@ -486,7 +487,7 @@ func (m *QueryGetGameResponse) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Game == nil {
-				m.Game = &StoredGame{}
+				m.Game = &rules.StoredGame{}
 			}
 			if err := m.Game.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err

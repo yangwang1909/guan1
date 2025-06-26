@@ -1,0 +1,10 @@
+syntax = "proto3";
+package alice.checkers.v1;
+
+option go_package = "github.com/alice/checkers/rules";
+
+message SystemInfo {
+  uint64 nextId = 1; 
+  string fifoHeadIndex = 2;
+  string fifoTailIndex = 3;
+}

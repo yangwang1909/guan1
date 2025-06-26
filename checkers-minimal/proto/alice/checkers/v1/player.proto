@@ -1,0 +1,11 @@
+syntax = "proto3";
+package alice.checkers.v1;
+
+option go_package = "github.com/alice/checkers/rules";
+
+message PlayerInfo {
+	string index = 1;
+	uint64 wonCount = 2;
+	uint64 lostCount = 3;
+	uint64 forfeitedCount = 4;
+}
