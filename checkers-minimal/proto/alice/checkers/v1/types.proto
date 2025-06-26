@@ -8,18 +8,10 @@ import "gogoproto/gogo.proto";
 
 
 // Params defines the parameters for the module.
-message Params {
-  option (gogoproto.goproto_stringer) = false;
-
-}
 
 
-// GenesisState is the state that must be provided at genesis.
-message GenesisState {
-  // params defines all the parameters of the module.
-  Params params = 1 [ (gogoproto.nullable) = false ];
-  repeated IndexedStoredGame indexedStoredGameList = 2 [(gogoproto.nullable) = false];
-}
+
+
 
 message StoredGame {
   string index = 1;

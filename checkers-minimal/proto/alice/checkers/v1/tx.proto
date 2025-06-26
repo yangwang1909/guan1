@@ -9,6 +9,18 @@ import "alice/checkers/v1/types.proto";
 import "cosmos_proto/cosmos.proto";
 
 
+// GenesisState is the state that must be provided at genesis.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [ (gogoproto.nullable) = false ];
+  repeated IndexedStoredGame indexedStoredGameList = 2 [(gogoproto.nullable) = false];
+}
+
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+
+}
+
 // Msg defines the module Msg service.
 service Msg {
 option (cosmos.msg.v1.service) = true;
