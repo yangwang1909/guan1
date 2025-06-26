@@ -1,15 +1,10 @@
 package checkers
 
+import "github.com/alice/checkers/rules"
+
 // DefaultParams returns default module parameters.
-func DefaultParams() Params {
-    return Params{
-        // Set default values here.
-    }
+func DefaultParams() rules.Params {
+	return rules.Params{
+		// Set default values here.
+	}
 }
-
-// Validate does the sanity check on the params.
-func (p Params) Validate() error {
-    // Sanity check goes here.
-    return nil
-}
-

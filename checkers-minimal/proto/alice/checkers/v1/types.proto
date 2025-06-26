@@ -8,7 +8,10 @@ import "gogoproto/gogo.proto";
 
 
 // Params defines the parameters for the module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
 
+}
 
 
 

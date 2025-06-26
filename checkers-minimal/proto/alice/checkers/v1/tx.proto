@@ -16,10 +16,7 @@ message GenesisState {
   repeated IndexedStoredGame indexedStoredGameList = 2 [(gogoproto.nullable) = false];
 }
 
-message Params {
-  option (gogoproto.goproto_stringer) = false;
 
-}
 
 // Msg defines the module Msg service.
 service Msg {
