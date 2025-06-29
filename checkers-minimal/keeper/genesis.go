@@ -1,45 +1,26 @@
 package keeper
 
 import (
-	"context"
-
-	"github.com/alice/checkers"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/x/epochs/types"
 )
 
-// InitGenesis initializes the module state from a genesis state.
-func (k *Keeper) InitGenesis(ctx context.Context, data *checkers.GenesisState) error {
-	if err := k.Params.Set(ctx, data.Params); err != nil {
-		return err
-	}
-
-	for _, indexedStoredGame := range data.IndexedStoredGameList {
-		if err := k.StoredGames.Set(ctx, indexedStoredGame.Index, indexedStoredGame.StoredGame); err != nil {
-			return err
-		}
-	}
-	return nil
+// InitGenesis initializes the capability module's state from a provided genesis
+// state.
+func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
+	k.SetLeaderboard(ctx, genState.Leaderboard)
+	// this line is used by starport scaffolding # genesis/module/init
+	k.SetParams(ctx, genState.Params)
 }
 
-// ExportGenesis exports the module state to a genesis state.
-func (k *Keeper) ExportGenesis(ctx context.Context) (*checkers.GenesisState, error) {
-	params, err := k.Params.Get(ctx)
-	if err != nil {
-		return nil, err
-	}
+// ExportGenesis returns the capability module's exported genesis.
+func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
+	genesis := types.DefaultGenesis()
+	genesis.Params = k.GetParams(ctx)
 
-	var indexedStoredGames []checkers.IndexedStoredGame
-	if err := k.StoredGames.Walk(ctx, nil, func(index string, storedGame checkers.StoredGame) (bool, error) {
-		indexedStoredGames = append(indexedStoredGames, checkers.IndexedStoredGame{
-			Index:      index,
-			StoredGame: storedGame,
-		})
-		return false, nil
-	}); err != nil {
-		return nil, err
-	}
+	// Get all leaderboard
+	genesis.Leaderboard = k.GetLeaderboard(ctx)
+	// this line is used by starport scaffolding # genesis/module/export
 
-	return &checkers.GenesisState{
-		Params:                params,
-		IndexedStoredGameList: indexedStoredGames,
-	}, nil
+	return genesis
 }

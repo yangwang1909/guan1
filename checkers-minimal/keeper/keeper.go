@@ -7,7 +7,6 @@ import (
 	"cosmossdk.io/collections"
 	"cosmossdk.io/core/address"
 	storetypes "cosmossdk.io/core/store"
-	"github.com/cosmos/cosmos-sdk/codec"
 
 	"github.com/tendermint/tendermint/libs/log"
 
