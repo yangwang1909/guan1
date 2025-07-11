@@ -46,6 +46,7 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v10/modules/core/keeper"
 
 	"voter/docs"
+	tokenfactorymodulekeeper "voter/x/tokenfactory/keeper"
 	votermodulekeeper "voter/x/voter/keeper"
 )
 
@@ -98,7 +99,8 @@ type App struct {
 	ICAHostKeeper       icahostkeeper.Keeper
 	TransferKeeper      ibctransferkeeper.Keeper
 
-	VoterKeeper votermodulekeeper.Keeper
+	VoterKeeper        votermodulekeeper.Keeper
+	TokenfactoryKeeper tokenfactorymodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// simulation manager
@@ -176,6 +178,7 @@ func New(
 		&app.CircuitBreakerKeeper,
 		&app.ParamsKeeper,
 		&app.VoterKeeper,
+		&app.TokenfactoryKeeper,
 	); err != nil {
 		panic(err)
 	}

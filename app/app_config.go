@@ -2,6 +2,8 @@ package app
 
 import (
 	"time"
+	_ "voter/x/tokenfactory/module"
+	tokenfactorymoduletypes "voter/x/tokenfactory/types"
 	_ "voter/x/voter/module"
 	votermoduletypes "voter/x/voter/types"
 
@@ -84,6 +86,7 @@ var (
 		{Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
 		{Account: icatypes.ModuleName},
 		{Account: votermoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}},
+		{Account: tokenfactorymoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 
@@ -128,6 +131,7 @@ var (
 						ibcexported.ModuleName,
 						// chain modules
 						votermoduletypes.ModuleName,
+						tokenfactorymoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/beginBlockers
 					},
 					EndBlockers: []string{
@@ -137,6 +141,7 @@ var (
 						group.ModuleName,
 						// chain modules
 						votermoduletypes.ModuleName,
+						tokenfactorymoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/endBlockers
 					},
 					// The following is mostly only needed when ModuleName != StoreKey name.
@@ -174,6 +179,7 @@ var (
 						icatypes.ModuleName,
 						// chain modules
 						votermoduletypes.ModuleName,
+						tokenfactorymoduletypes.ModuleName,
 						// this line is used by starport scaffolding # stargate/app/initGenesis
 					},
 				}),
@@ -273,6 +279,10 @@ var (
 			{
 				Name:   votermoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&votermoduletypes.Module{}),
+			},
+			{
+				Name:   tokenfactorymoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&tokenfactorymoduletypes.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},
