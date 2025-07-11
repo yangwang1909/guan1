@@ -1,8 +1,10 @@
 syntax = "proto3";
+
 package voter.tokenfactory.v1;
 
 import "amino/amino.proto";
 import "gogoproto/gogo.proto";
+import "voter/tokenfactory/v1/denom.proto";
 import "voter/tokenfactory/v1/params.proto";
 
 option go_package = "voter/x/tokenfactory/types";
@@ -14,4 +16,5 @@ message GenesisState {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
+  repeated Denom denom_map = 2 [(gogoproto.nullable) = false];
 }
