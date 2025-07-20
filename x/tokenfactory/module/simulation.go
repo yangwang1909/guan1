@@ -79,6 +79,21 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		weightMsgDeleteDenom,
 		tokenfactorysimulation.SimulateMsgDeleteDenom(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
 	))
+	const (
+		opWeightMsgMintAndSendTokens          = "op_weight_msg_tokenfactory"
+		defaultWeightMsgMintAndSendTokens int = 100
+	)
+
+	var weightMsgMintAndSendTokens int
+	simState.AppParams.GetOrGenerate(opWeightMsgMintAndSendTokens, &weightMsgMintAndSendTokens, nil,
+		func(_ *rand.Rand) {
+			weightMsgMintAndSendTokens = defaultWeightMsgMintAndSendTokens
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgMintAndSendTokens,
+		tokenfactorysimulation.SimulateMsgMintAndSendTokens(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
+	))
 
 	return operations
 }

@@ -26,6 +26,9 @@ service Msg {
 
   // DeleteDenom defines the DeleteDenom RPC.
   rpc DeleteDenom(MsgDeleteDenom) returns (MsgDeleteDenomResponse);
+
+  // MintAndSendTokens defines the MintAndSendTokens RPC.
+  rpc MintAndSendTokens(MsgMintAndSendTokens) returns (MsgMintAndSendTokensResponse);
 }
 
 // MsgUpdateParams is the Msg/UpdateParams request type.
@@ -92,3 +95,15 @@ message MsgDeleteDenom {
 
 // MsgDeleteDenomResponse defines the MsgDeleteDenomResponse message.
 message MsgDeleteDenomResponse {}
+
+// MsgMintAndSendTokens defines the MsgMintAndSendTokens message.
+message MsgMintAndSendTokens {
+  option (cosmos.msg.v1.signer) = "owner";
+  string owner = 1;
+  string denom = 2;
+  int64 amount = 3;
+  string recipient = 4;
+}
+
+// MsgMintAndSendTokensResponse defines the MsgMintAndSendTokensResponse message.
+message MsgMintAndSendTokensResponse {}
