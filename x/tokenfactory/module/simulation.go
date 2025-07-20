@@ -94,6 +94,21 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		weightMsgMintAndSendTokens,
 		tokenfactorysimulation.SimulateMsgMintAndSendTokens(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
 	))
+	const (
+		opWeightMsgUpdateOwner          = "op_weight_msg_tokenfactory"
+		defaultWeightMsgUpdateOwner int = 100
+	)
+
+	var weightMsgUpdateOwner int
+	simState.AppParams.GetOrGenerate(opWeightMsgUpdateOwner, &weightMsgUpdateOwner, nil,
+		func(_ *rand.Rand) {
+			weightMsgUpdateOwner = defaultWeightMsgUpdateOwner
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgUpdateOwner,
+		tokenfactorysimulation.SimulateMsgUpdateOwner(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
+	))
 
 	return operations
 }

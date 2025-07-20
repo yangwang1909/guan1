@@ -29,6 +29,9 @@ service Msg {
 
   // MintAndSendTokens defines the MintAndSendTokens RPC.
   rpc MintAndSendTokens(MsgMintAndSendTokens) returns (MsgMintAndSendTokensResponse);
+
+  // UpdateOwner defines the UpdateOwner RPC.
+  rpc UpdateOwner(MsgUpdateOwner) returns (MsgUpdateOwnerResponse);
 }
 
 // MsgUpdateParams is the Msg/UpdateParams request type.
@@ -107,3 +110,14 @@ message MsgMintAndSendTokens {
 
 // MsgMintAndSendTokensResponse defines the MsgMintAndSendTokensResponse message.
 message MsgMintAndSendTokensResponse {}
+
+// MsgUpdateOwner defines the MsgUpdateOwner message.
+message MsgUpdateOwner {
+  option (cosmos.msg.v1.signer) = "owner";
+  string owner = 1;
+  string denom = 2;
+  string new_owner = 3;
+}
+
+// MsgUpdateOwnerResponse defines the MsgUpdateOwnerResponse message.
+message MsgUpdateOwnerResponse {}
